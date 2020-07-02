@@ -1,0 +1,24 @@
+@charset "UTF-8";
+#memberform {
+    width: 700px;
+    height: 450px;
+	margin: 100px auto;
+}
+.form label {
+	padding-bottom:2px;
+	width:130px;
+	display:inline-block;
+	border-right:solid 0px;
+	line-height:30px; text-align:center; height:32px;
+}
+.form .label {
+	vertical-align: middle;
+	border: solid 0px;
+	border-bottom: 0px;
+}
+.form input{
+	margin:5px;
+}
+.mar input {
+	margin-left:13px;
+}
