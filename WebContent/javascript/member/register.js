@@ -3,6 +3,12 @@
  */
 
 function createForm(obj) {
+	if(obj.id.value==""){
+		alert("아이디를 반드시 입력해주세요.");
+		obj.id.focus();
+		return;		
+	}
+	
 	var str = "";
 	for (var i = 0; i < obj.interest.length; i++) {
 		if (obj.interest[i].checked == true) {			
@@ -36,6 +42,18 @@ function zipcode1(url){
 	url += "/member/zipcode.do";
 	//alert(url);
 	window.open(url,"","width=400, height=400, scrollbars=yes");
+	
+	
+}
+
+//우편번호 검색, 입력하기
+function sendAddress(zipcode, sido, gugun, dong, ri, bunji){
+	var address = sido + " " + gugun + " " + dong + " "+ ri + bunji;
+	//alert(zipcode + "\n" + address);
+	
+	opener.createChkForm.zipcode.value=zipcode;
+	opener.createChkForm.address.value=address;
+	close();
 	
 	
 }

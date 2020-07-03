@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
 
+//Spring에서 Mapper 역할 - 쿼리실행
 public class MemberDao { // Data Access Object
 	//singleton pattern : 단 한개의 객체만을 가지고 구현(설계)한다.
 	private static MemberDao instance = new MemberDao(); //메모리공간 절약
@@ -81,6 +83,46 @@ public class MemberDao { // Data Access Object
 		}
 		
 		return value;
+	}
+	
+	public ArrayList<ZipcodeDto> zipcodeReader(String checkDong){
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<ZipcodeDto> arrayList = null;
+
+		try {
+			String sql = "select * from zipcode where dong = ?";
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, checkDong); // 1번째 물음표
+			rs = pstmt.executeQuery();
+			
+			arrayList = new ArrayList<ZipcodeDto>();
+			while(rs.next()) { // 넘어온게 있니? 한행씩 넘어옴
+				
+				ZipcodeDto address = new ZipcodeDto();
+				
+				address.setZipcode(rs.getString("zipcode"));
+				address.setSido(rs.getString("sido"));
+				address.setGugun(rs.getString("gugun"));
+				address.setDong(rs.getString("dong"));
+				address.setRi(rs.getString("ri"));
+				address.setBunji(rs.getString("bunji"));				
+				
+				arrayList.add(address); // 객체를 N번지에 넣어줌
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return arrayList;
 	}
 
 }

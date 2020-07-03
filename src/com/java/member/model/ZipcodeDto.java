@@ -1,5 +1,6 @@
 package com.java.member.model;
 
+//Spring에서 VO객체 역할
 public class ZipcodeDto {
 	private String zipcode;
 	private String sido;
