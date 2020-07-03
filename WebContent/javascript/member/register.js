@@ -6,7 +6,25 @@ function createForm(obj) {
 	if(obj.id.value==""){
 		alert("아이디를 반드시 입력해주세요.");
 		obj.id.focus();
-		return;		
+		return false;		
+	}
+	
+	if(obj.password.value == ""){
+		alert("비밀번호를 반드시 입력하세요.");
+		obj.password.focus();
+		return false;
+	}
+	
+	if(obj.password.value.length <= 7){
+		alert("비밀번호를 8자리 이상으로 입력하세요");
+		obj.password.focus();
+		return false;
+	}
+	
+	if(obj.password.value != obj.passwordCheck.value){
+		alert("비밀번호가 맞는지 확인하세요.");
+		obj.password.focus();
+		return false;
 	}
 	
 	var str = "";
