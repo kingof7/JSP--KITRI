@@ -89,7 +89,7 @@
 		    <input type="checkbox" name="interest" value="미술">미술
 		    <input type="hidden" name="resultInterest" />		    
 		</div>
-		${memberDto.interest }
+		
 		
 		<c:forTokens var="interest" items="${memberDto.interest}" delims=",">
 			<script type="text/javascript">

@@ -36,7 +36,10 @@ public class UpdateOkCommand implements Command {
 		int check = MemberDao.getInstance().update(memberDto);
 		logger.info(logMsg + check);
 		
-		return null;
+		request.setAttribute("check", check);
+		
+		
+		return "/WEB-INF/views/member/updateOk.jsp";
 	}
 
 }

@@ -248,5 +248,32 @@ public class MemberDao { // Data Access Object
 		return value;	
 		
 	}
+	
+	public int delete(String id, String password) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int value = 0;
+		
+		try {
+			String sql = "delete from member where id=? and password=?";
+			
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, password);
+			
+			value = pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return value;
+	}
 
 }
