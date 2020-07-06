@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+///import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
@@ -13,6 +15,8 @@ import com.java.database.JdbcUtil;
 public class MemberDao { // Data Access Object
 	//singleton pattern : 단 한개의 객체만을 가지고 구현(설계)한다.
 	private static MemberDao instance = new MemberDao(); //메모리공간 절약
+	
+	//MemberDao.getInstance()로 쓸 수 있음
 	public static MemberDao getInstance() {
 		return instance;
 	}
@@ -104,6 +108,9 @@ public class MemberDao { // Data Access Object
 				
 				ZipcodeDto address = new ZipcodeDto();
 				
+				//rs가 오라클의 데이터를 자바형으로 바꿔줌
+				//(오라클->자바)날짜는 시간으로 바꿔서 Date클래ㅡ로 바꿔줌
+				//(자바->오라클)Date클래스로 담아서 
 				address.setZipcode(rs.getString("zipcode"));
 				address.setSido(rs.getString("sido"));
 				address.setGugun(rs.getString("gugun"));
@@ -123,6 +130,109 @@ public class MemberDao { // Data Access Object
 		}
 		
 		return arrayList;
+	}
+
+	public String loginCheck(String id, String password) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String value = null;
+		
+		try {
+			String sql = "select member_level from member where id = ? and password=?";
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, password);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) value = rs.getString("member_level");
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return value;
+	}
+	
+	public MemberDto updateId(String id) {
+		Connection conn = null;
+		MemberDto memberDto = null;
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			String sql = "select * from member where id = ?";
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				memberDto = new MemberDto();
+				memberDto.setNum(rs.getInt("num"));
+				memberDto.setId(rs.getString("id"));
+				memberDto.setPassword(rs.getString("password"));
+				memberDto.setName(rs.getString("name"));
+				memberDto.setJumin1(rs.getString("jumin1"));
+				memberDto.setJumin2(rs.getString("jumin2"));
+				
+				memberDto.setEmail(rs.getString("email"));
+				memberDto.setZipcode(rs.getString("zipcode"));
+				memberDto.setAddress(rs.getString("address"));
+				memberDto.setJob(rs.getString("job"));
+				memberDto.setInterest(rs.getString("interest"));
+				memberDto.setMailing(rs.getString("mailing"));
+				memberDto.setMemberLevel(rs.getString("member_level"));
+			
+			/*
+			 * Timestamp ts = rs.getTimestamp("register_date");
+				long time = ts.getTime();
+				Date date = new Data(time);
+				memberDto.setRegisterDate(date);
+			 * */
+				
+				memberDto.setRegisterDate(new Date(rs.getTimestamp("register_date").getTime()));
+				
+				
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return memberDto;
+		
+		
+	}
+	
+	public int update(MemberDto memberDto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		int value = 0;
+		
+		try {
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return value;	
+		
 	}
 
 }

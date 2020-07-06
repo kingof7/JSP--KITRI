@@ -2,7 +2,7 @@ package com.java.member.model;
 
 import java.util.Date;
 
-public class MemberDto { //Data Transfer Object = VO
+public class MemberDto {
 	private String id;
 	private String password;
 	private String name;

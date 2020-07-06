@@ -26,7 +26,7 @@ public class RegisterOkCommand implements Command {
 		String zipcode = request.getParameter("zipcode");
 		String address = request.getParameter("address");
 		String job = request.getParameter("job");
-		String mailing = request.getParameter("mailing");		
+		String mailing = request.getParameter("mailing");
 		String interest = request.getParameter("resultInterest");
 		
 		logger.info(logMsg + " " + id + " " + password + " " + name + " " + jumin1 + " " + jumin2
@@ -43,18 +43,15 @@ public class RegisterOkCommand implements Command {
 		memberDto.setMailing(mailing);
 		memberDto.setInterest(interest);
 		memberDto.setMemberLevel("BB");
-		//시퀀스, 가입날짜 -DB
 		
 		logger.info(logMsg + memberDto.toString());
-		//DAO -- DB - DAO(DTO):싱글톤 - Command
 		
-		//Boolean or int로 반환
-		int check = MemberDao.getInstance().insert(memberDto);
+		MemberDao dao = MemberDao.getInstance();
+		int check = dao.insert(memberDto);
 		logger.info(logMsg + check);
 		
 		request.setAttribute("check", check);
-		
-		
+	
 		return "/WEB-INF/views/member/registerOk.jsp";
 	}
 
