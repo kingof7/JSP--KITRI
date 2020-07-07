@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
 
 public class BoardDao {
+	//싱글톤 패턴
 	private static BoardDao instance = new BoardDao();
 	
 	public static BoardDao getInstance() {
@@ -71,21 +72,35 @@ public class BoardDao {
 		
 		try {
 			//루트글
-			if(boardNumber == 0) {	// groupNumber, 0, 0
+			if(boardNumber == 0) {	// groupNumber, 0, 0 // ROOT : 그룹번호
 				sql = "select max(group_number) from board";
 				conn = ConnectionProvider.getConnection();
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				
 				if(rs.next()) {
-					int max = rs.getInt(1);// "max(group_number)"
+					int max = rs.getInt(1);// "max(group_number)" : 부모 게시물갯수
 					boardDto.setGroupNumber(max+1); // 최고 그룹넘버 최대값에 1을 더함
 				}
 				
 			}
 			//자식글
-			else {
+			else {	// 답글 : 글순서, 글레벨
 				
+				// 시퀀스 넘버가 0보다큰(=이전에 작성한글들) 것들 1 씩 모두 증가
+				sql = "update board set sequence_number = sequence_number + 1 " + "where group_number=? and sequence_number > 0";
+				
+				conn = ConnectionProvider.getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, groupNumber);
+				pstmt.setInt(2, sequenceNumber);
+								
+				//본인 것 1증가
+				sequenceNumber = sequenceNumber + 1;
+				sequenceLevel = sequenceLevel + 1;
+				
+				boardDto.setSequenceNumber(sequenceNumber);
+				boardDto.setSequenceLevel(sequenceLevel);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -95,5 +110,67 @@ public class BoardDao {
 			JdbcUtil.close(conn);			
 		}
 		
+	}
+	
+	public int getCount() {
+		String sql = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+		int value = 0;
+		
+		try {
+			sql = "select count(*) from board";
+			
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) value = rs.getInt(1); // count(*)
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return value;
+	}
+	
+	public ArrayList<BoardDto> getBoardList(int startRow, int endRow) {
+				
+		ArrayList<BoardDto> boardList = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "select * from "
+					+ "(select rownum as rnum, a.* from (select * from board order by group_number desc, sequence_number asc) a) b "
+					+ "where b.rnum >= ? and b.rnum <= ?";
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDto board = new BoardDto();
+				
+				boardList.add(board);
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return boardList;
 	}
 }

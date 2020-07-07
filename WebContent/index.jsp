@@ -28,7 +28,7 @@
 	<br><br>
 	
 	<a href="${root}/board/write.do">게시판 글쓰기</a>
-	
+	<a href="${root}/board/list.do">게시판 목록보기</a>
 
 </body>
 </html>
