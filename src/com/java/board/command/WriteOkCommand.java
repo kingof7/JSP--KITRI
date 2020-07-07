@@ -1,8 +1,11 @@
 package com.java.board.command;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.java.board.model.BoardDao;
 import com.java.board.model.BoardDto;
 import com.java.command.Command;
 
@@ -26,8 +29,12 @@ public class WriteOkCommand implements Command {
 		boardDto.setEmail(request.getParameter("email"));
 		boardDto.setContent(request.getParameter("content"));
 		boardDto.setPassword(request.getParameter("password"));
+		boardDto.setWriteDate(new Date());	 //시간
 		
 		logger.info(logMsg + boardDto);
+		
+		int check = BoardDao.getInstance().insert(boardDto);
+		logger.info(logMsg + check);
 		
 		return null;
 	}
