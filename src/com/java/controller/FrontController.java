@@ -28,7 +28,7 @@ public class FrontController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		String configFile = config.getInitParameter("configFile");
-		String path = config.getServletContext().getRealPath(configFile);
+		String path = config.getServletContext().getRealPath(configFile); //properties의 실제경로
 		logger.info(logMsg + path);
 		
 		FileInputStream fis = null;

@@ -10,7 +10,8 @@ public class DeleteCommand implements Command {
 	@Override
 	public String proRequest(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		
-		return "/WEB-INF/views/member/delete.jsp";
+		
+		return "/WEB-INF/views/member/delete.jsp"; //url이아니라 디렉토리경로, WebContent가 최상위
 	}
 
 }

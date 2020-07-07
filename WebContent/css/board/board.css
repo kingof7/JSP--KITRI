@@ -1,0 +1,34 @@
+@charset "UTF-8";
+#power {
+   border : solid 0px blue;
+   width: 600px;
+   margin: 200px auto;
+}
+
+#power div {
+   border: solid 2px;
+   border-bottom:0px;
+      vertical-align: middle;
+}
+
+#power .bottom {
+   border-bottom:solid 2px;
+   text-align:center;
+}
+
+#power .six {
+   border-right: solid 2px;
+   float:left;
+   width: 100px; height:30px;
+   padding-bottom:2px;
+   text-align:center;
+}
+#power input, #power textarea {
+   margin:5px;
+}
+
+#power .title {
+   text-align:right;
+   border: 0px;
+}
+a { text-decoration:none }

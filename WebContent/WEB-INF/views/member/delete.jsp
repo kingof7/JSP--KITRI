@@ -9,7 +9,7 @@
 </head>
 <body>
 	<c:set var="root" value="${pageContext.request.contextPath}" />
-	
+	${root}
 	<div align="center">
 		<form action="${root}/member/deleteOk.do" method="post">
 			<table >
