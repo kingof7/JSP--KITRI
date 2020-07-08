@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
@@ -128,6 +129,7 @@ public class BoardDao {
 			
 			if(rs.next()) value = rs.getInt(1); // count(*)
 			
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -136,12 +138,13 @@ public class BoardDao {
 			JdbcUtil.close(conn);
 		}
 		
+		
 		return value;
 	}
 	
 	public ArrayList<BoardDto> getBoardList(int startRow, int endRow) {
 				
-		ArrayList<BoardDto> boardList = null;
+		ArrayList<BoardDto> boardList = new ArrayList<BoardDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -157,9 +160,25 @@ public class BoardDao {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				BoardDto board = new BoardDto();
 				
-				boardList.add(board);
+				BoardDto boardDto = new BoardDto();
+				
+				boardDto.setBoardNumber(rs.getInt("board_number"));
+				boardDto.setWriter(rs.getString("writer"));
+				boardDto.setSubject(rs.getString("subject"));
+				boardDto.setEmail(rs.getString("email"));
+				boardDto.setContent(rs.getString("content"));
+				
+				boardDto.setPassword(rs.getString("password"));
+				boardDto.setWriteDate(new Date(rs.getTimestamp("write_date").getTime())); //DB에 sysdate(timestamp) --> 자바의 Date로 바꾸기
+				boardDto.setReadCount(rs.getInt("read_count"));
+				boardDto.setGroupNumber(rs.getInt("group_number"));
+				boardDto.setSequenceNumber(rs.getInt("sequence_number"));
+				boardDto.setSequenceLevel(rs.getInt("sequence_level"));
+				
+				System.out.println(boardDto);
+				
+				boardList.add(boardDto);
 			}
 			
 			

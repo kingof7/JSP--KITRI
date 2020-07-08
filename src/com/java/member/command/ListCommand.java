@@ -18,9 +18,9 @@ public class ListCommand implements Command {
 		if(pageNumber == null) pageNumber = "1";
 		
 		int currentPage = Integer.parseInt(pageNumber); // 1이 요청됨
-		logger.info(String.valueOf(currentPage));
+		logger.info(logMsg + currentPage);
 		
-		int boardSize = 10; //페이지당 게시물 수 // [1] 스타트:1 엔드:10 [2] 스타트:11 엔드: 20 ....				
+		int boardSize = 2; //페이지당 게시물 수 // [1] 스타트:1 엔드:10 [2] 스타트:11 엔드: 20 ....				
 		int startRow = boardSize*(currentPage-1)+1; // 시작번호 1, 11, 21, 31 ...
 		int endRow = currentPage*boardSize;	 // 끝번호 10, 20, 30, ...
 		
@@ -28,12 +28,20 @@ public class ListCommand implements Command {
 		int count = BoardDao.getInstance().getCount(); // 게시글 갯수
 		logger.info(logMsg + count);
 		
+		ArrayList<BoardDto> boardList = null;
 		if(count > 0) {
 			// startRow, endRow
-			ArrayList<BoardDto> boardList = BoardDao.getInstance().getBoardList(startRow, endRow);
-			logger.info(logMsg + boardList.size());
+			boardList = BoardDao.getInstance().getBoardList(startRow, endRow);
+			//logger.info(logMsg + boardList.size());
 		}
-		return null;
+		request.setAttribute("boardList", boardList);
+		request.setAttribute("boardSize", boardSize);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("count", count);
+		
+		logger.info(boardList.toString());
+		
+		return "/WEB-INF/views/board/list.jsp";
 	}
 
 }
