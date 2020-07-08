@@ -3,9 +3,9 @@ package com.java.board.model;
 import java.util.Date;
 
 public class BoardDto {
-private int boardNumber; //자동 증가 번호
 	
-	
+	private int boardNumber; //자동 증가 번호
+		
 	//사용자에게 입력 받음
 	private String writer;
 	private String subject;

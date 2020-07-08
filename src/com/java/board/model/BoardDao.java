@@ -192,4 +192,42 @@ public class BoardDao {
 		
 		return boardList;
 	}
+	
+	public BoardDto read(int boardNumber) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardDto boardDto = null;
+		
+		try {
+			
+			//조회수 올리는 쿼리
+			conn = ConnectionProvider.getConnection();
+			String sql = "update board set read_count = read_count + 1 where board_number = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNumber);
+			int value = pstmt.executeUpdate();
+			if(value > 0) JdbcUtil.close(pstmt);
+			
+			
+			String sqlSelect = "select * from board where board_number = ?";
+			pstmt = conn.prepareStatement(sqlSelect);
+			pstmt.setInt(1, boardNumber);
+			rs = pstmt.executeQuery();
+					
+			if(rs.next()) {
+				boardDto = new BoardDto();
+			}
+			
+		}catch(Exception e) {
+			
+		}finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		
+		return boardDto;		
+	}
 }

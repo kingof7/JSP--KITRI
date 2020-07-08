@@ -41,7 +41,7 @@
 					<tr>
 						<td align="center" width="50">${boardDto.boardNumber}</td>
 						<td align="center" width="250">
-							<a href="" style="text-decoration: none;">${boardDto.subject}</a>
+							<a href="${root}/board/read.do?boardNumber=${boardDto.boardNumber}&pageNumber=${currentPage}" style="text-decoration: none;">${boardDto.subject}</a>
 						</td>
 						<td align="center" width="70">${boardDto.writer}</td>
 						<td align="center" width="200">	
