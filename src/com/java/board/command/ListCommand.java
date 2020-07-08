@@ -1,4 +1,4 @@
-package com.java.member.command;
+package com.java.board.command;
 
 import java.util.ArrayList;
 

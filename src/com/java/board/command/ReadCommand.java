@@ -20,8 +20,9 @@ public class ReadCommand implements Command {
 		logger.info(logMsg + boardDto);
 		
 		request.setAttribute("pageNumber", pageNumber);
+		request.setAttribute("boardDto", boardDto);
 		
-		return null;
+		return "/WEB-INF/views/board/read.jsp";
 	}
 
 }

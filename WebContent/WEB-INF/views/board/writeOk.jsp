@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>

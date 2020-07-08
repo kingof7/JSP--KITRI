@@ -89,12 +89,13 @@ public class BoardDao {
 			else {	// 답글 : 글순서, 글레벨
 				
 				// 시퀀스 넘버가 0보다큰(=이전에 작성한글들) 것들 1 씩 모두 증가
-				sql = "update board set sequence_number = sequence_number + 1 " + "where group_number=? and sequence_number > 0";
+				sql = "update board set sequence_number = sequence_number + 1 " + "where group_number=? and sequence_number > ?";
 				
 				conn = ConnectionProvider.getConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, groupNumber);
 				pstmt.setInt(2, sequenceNumber);
+				pstmt.executeUpdate();
 								
 				//본인 것 1증가
 				sequenceNumber = sequenceNumber + 1;
@@ -203,6 +204,10 @@ public class BoardDao {
 			
 			//조회수 올리는 쿼리
 			conn = ConnectionProvider.getConnection();
+			
+			//오토커밋 취소
+			conn.setAutoCommit(false);
+			
 			String sql = "update board set read_count = read_count + 1 where board_number = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardNumber);
@@ -215,9 +220,24 @@ public class BoardDao {
 			pstmt.setInt(1, boardNumber);
 			rs = pstmt.executeQuery();
 					
-			if(rs.next()) {
+			if(rs.next()) {				
 				boardDto = new BoardDto();
+				
+				boardDto.setBoardNumber(rs.getInt("board_number"));
+				boardDto.setWriter(rs.getString("writer"));
+				boardDto.setSubject(rs.getString("subject"));
+				boardDto.setEmail(rs.getString("email"));
+				boardDto.setContent(rs.getString("content"));
+				
+				boardDto.setPassword(rs.getString("password"));
+				boardDto.setWriteDate(new Date(rs.getTimestamp("write_date").getTime())); //DB에 sysdate(timestamp) --> 자바의 Date로 바꾸기
+				boardDto.setReadCount(rs.getInt("read_count"));
+				boardDto.setGroupNumber(rs.getInt("group_number"));
+				boardDto.setSequenceNumber(rs.getInt("sequence_number"));
+				boardDto.setSequenceLevel(rs.getInt("sequence_level"));
 			}
+			
+			conn.commit();
 			
 		}catch(Exception e) {
 			
