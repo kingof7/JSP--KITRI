@@ -26,7 +26,8 @@ public class BoardDao {
 		writeNumber(boardDto, conn);
 		
 		try {
-			String sql = "insert into board " + "values(board_board_number_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "insert into board(board_number, writer, subject, email, content, password, write_date, read_count,"
+					+ "group_number, sequence_number, sequence_level, file_name, path, file_size) " + "values(board_board_number_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			conn = ConnectionProvider.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
@@ -64,7 +65,7 @@ public class BoardDao {
 		// 그룹번호, 글순서, 글레벨
 		
 		int boardNumber = boardDto.getBoardNumber(); // 0	
-		int groupNumber = boardDto.getGroupNumber(); // 1
+		int groupNumber = boardDto.getGroupNumber(); // 1 --> 2 --> 3 ...(부모글 쓸수록 증가)
 		int sequenceNumber = boardDto.getSequenceNumber(); // 0
 		int sequenceLevel = boardDto.getSequenceLevel(); // 0
 		String sql = null;
@@ -103,6 +104,7 @@ public class BoardDao {
 				
 				boardDto.setSequenceNumber(sequenceNumber);
 				boardDto.setSequenceLevel(sequenceLevel);
+				
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -249,5 +251,32 @@ public class BoardDao {
 		
 		
 		return boardDto;		
+	}
+	
+	public int update(BoardDto boardDto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		int value = 0;
+		try {
+			conn = ConnectionProvider.getConnection();
+			
+			String sqlUpdate = "update board set subject = ?, content = ? where board_number = ?";
+			pstmt = conn.prepareStatement(sqlUpdate);
+			pstmt.setString(1, boardDto.getSubject());
+			pstmt.setString(2, boardDto.getContent());
+			pstmt.setInt(3, boardDto.getBoardNumber());
+			value = pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+			
+		}
+		
+		return value;
+		
 	}
 }

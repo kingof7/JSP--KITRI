@@ -29,3 +29,21 @@ create table zipcode(
     ri varchar2(100),
     bunji varchar2(100)
 );
+
+create table board(
+    board_number number(8) not null,
+    writer varchar2(10) not null,
+    subject varchar2(100) not null,
+    email varchar2(50) not null,
+    content varchar2(4000) not null,
+    password varchar2(20) not null,
+    
+    write_date date not null,
+    read_count number(5) default 0,
+    group_number number(5) not null,
+    sequence_number number(5) not null,
+    sequence_level number(5) not null,
+    primary key(board_number)
+);
+
+create sequence board_board_number_seq;

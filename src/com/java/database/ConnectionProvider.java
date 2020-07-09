@@ -10,8 +10,8 @@ public class ConnectionProvider {
 		Connection conn = null;
 		try {
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			String id = "mvc";
-			String pass = "1234";
+			String id = "c##mvc";
+			String pass = "1213";
 			conn = DriverManager.getConnection(url, id, pass);
 			
 		} catch(SQLException e) {

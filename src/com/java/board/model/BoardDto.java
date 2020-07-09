@@ -18,13 +18,14 @@ public class BoardDto {
 	private int groupNumber;
 	private int sequenceNumber;
 	private int sequenceLevel;
+	private int pageNumber;
 	
 	public BoardDto() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	public BoardDto(int boardNumber, String writer, String subject, String email, String content, String password,
-			Date writeDate, int readCount, int groupNumber, int sequenceNumber, int sequenceLevel) {
+			Date writeDate, int readCount, int groupNumber, int sequenceNumber, int sequenceLevel, int pageNumber) {
 		super();
 		this.boardNumber = boardNumber;
 		this.writer = writer;
@@ -37,6 +38,7 @@ public class BoardDto {
 		this.groupNumber = groupNumber;
 		this.sequenceNumber = sequenceNumber;
 		this.sequenceLevel = sequenceLevel;
+		this.pageNumber = pageNumber;
 	}
 
 	public int getBoardNumber() {
@@ -127,12 +129,22 @@ public class BoardDto {
 		this.sequenceLevel = sequenceLevel;
 	}
 
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "BoardDao [boardNumber=" + boardNumber + ", writer=" + writer + ", subject=" + subject + ", email="
+		return "BoardDto [boardNumber=" + boardNumber + ", writer=" + writer + ", subject=" + subject + ", email="
 				+ email + ", content=" + content + ", password=" + password + ", writeDate=" + writeDate
 				+ ", readCount=" + readCount + ", groupNumber=" + groupNumber + ", sequenceNumber=" + sequenceNumber
-				+ ", sequenceLevel=" + sequenceLevel + "]";
+				+ ", sequenceLevel=" + sequenceLevel + ", pageNumber=" + pageNumber + "]";
 	}
+
+	
 	
 }

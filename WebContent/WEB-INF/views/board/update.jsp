@@ -42,9 +42,9 @@
 	         <input type="password" name="password">
 	      </div>
 	      <div class="bottom">
-	         <input type="submit" name="update" value="수정하기">
+	         <input type="submit" value="수정하기">
 	         <input type="reset" value="다시작성">
-	         <input type="button" name="list" value="목록보기" onclick="location.href='${root}/board/list.do'"/>
+	         <input type="button" value="목록보기" onclick="location.href='${root}/board/list.do'"/>
 	      </div>
       </form>
    </div>

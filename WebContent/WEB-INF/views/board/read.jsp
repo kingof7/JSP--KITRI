@@ -21,6 +21,13 @@
 		
 		location.href = url;
 	}
+	
+	function upFun(root, boardNumber, pageNumber){
+		var url = root + "/board/update.do?boardNumber=" + boardNumber;
+		url += "&pageNumber=" + pageNumber;
+		
+		location.href = url;
+	}
 </script>
 </head>
 <body>
@@ -61,7 +68,7 @@
          	 </label>
 	      </div>	    
 		<div class="bottom">
-			<input type="button" value="글수정" onclick=""/>
+			<input type="button" value="글수정" onclick="upFun('${root}','${boardDto.boardNumber}','${boardDto.pageNumber}')"/>
 			<input type="button" value="글삭제" onclick=""/>
 			<input type="button" value="답글" onclick="replyFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}')"/>
 			<input type="button" value="글목록" onclick=""/>
