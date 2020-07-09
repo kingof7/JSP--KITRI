@@ -16,7 +16,7 @@
       <div class="title">
          <span><a href="#">글목록</a></span>
       </div>
-      <form action="${root}/board/writeOk.do" method="get" onsubmit="return boardCheck(this)">
+      <form action="${root}/fileBoard/writeOk.do" method="get" onsubmit="return boardCheck(this)" enctype="multipart/form-data">
       
       	  <input type="hidden" name="boardNumber" value="${boardNumber }"/>
       	  <input type="hidden" name="groupNumber" value="${groupNumber }"/>
@@ -43,10 +43,19 @@
 	         <label class="six">비밀번호</label>
 	         <input type="password" name="password">
 	      </div>
+	      
+	      <!-- 파일 업로드 -->
+	      <div>
+	      	<span class="six" style="border-bottom-width: 1px">
+	      		파일명
+	      	</span>	
+	      	<input type="file" size="40" name="file">	      	     	
+	      </div>
+	      
 	      <div class="bottom">
 	         <input type="submit" name="write" value="글쓰기">
 	         <input type="reset" value="다시작성">
-	         <input type="button" name="list" value="목록보기" onclick="location.href='${root}/board/list.do'"/>
+	         <input type="button" name="list" value="목록보기" onclick="location.href='${root}/fileBoard/list.do'"/>
 	      </div>
       </form>
    </div>

@@ -1,4 +1,4 @@
-package com.java.board.model;
+package com.java.fileBoard.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -278,10 +278,11 @@ public class BoardDao {
 		return value;
 	}
 	
+	@SuppressWarnings("null")
 	public int update(BoardDto boardDto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
+		boardDto = null;
 		int value = 0;
 		try {
 			

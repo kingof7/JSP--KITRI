@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="${root}/css/board/board.css" />
 <script type="text/javascript">
 	function replyFun(root, boardNumber, groupNumber, sequenceNumber, sequenceLevel){
-		var url = root + "/board/write.do?boardNumber=" + boardNumber;
+		var url = root + "/fileBoard/write.do?boardNumber=" + boardNumber;
 		url += "&groupNumber=" + groupNumber;
 		url += "&sequenceNumber=" + sequenceNumber;
 		url += "&sequenceLevel=" + sequenceLevel;
@@ -22,7 +22,7 @@
 	}
 	
 	function delFun(root, boardNumber, pageNumber){
-		var url = root + "/board/delete.do?boardNumber=" + boardNumber + "&pageNumber=" + pageNumber;
+		var url = root + "/fileBoard/delete.do?boardNumber=" + boardNumber + "&pageNumber=" + pageNumber;
 		//alert(url);
 		location.href = url;
 		
@@ -35,8 +35,11 @@
 		*/
 	}
 	
-	function upFun(root, boardNumber, pageNumber){
-		var url = root + "/board/update.do?boardNumber=" + boardNumber;		
+	function upFun(root, boardNumber, groupNumber, sequenceNumber, sequenceLevel, pageNumber){
+		var url = root + "/fileBoard/update.do?boardNumber=" + boardNumber;
+		url += "&groupNumber=" + groupNumber;
+		url += "&sequenceNumber=" + sequenceNumber;
+		url += "&sequenceLevel=" + sequenceLevel;
 		url += "&pageNumber=" + pageNumber;
 		
 		location.href = url;		
@@ -84,7 +87,7 @@
 			<input type="button" value="글수정" onclick="upFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}','${pageNumber}')"/>
 			<input type="button" value="글삭제" onclick="delFun('${root}','${boardDto.boardNumber}','${pageNumber}')"/>
 			<input type="button" value="답글" onclick="replyFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}')"/>
-			<input type="button" value="글목록" onclick="location.href='${root}/board/list.do?pageNumber=${pageNumber}'"/>
+			<input type="button" value="글목록" onclick="location.href='${root}/fileBoard/list.do?pageNumber=${pageNumber}'"/>
 		</div>
 
 	</div>

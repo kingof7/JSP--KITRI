@@ -1,24 +1,23 @@
-@charset "UTF-8";
 #power {
-   border : solid 0px blue;
+   border: 1px black solid;
    width: 600px;
    margin: 200px auto;
-   oveflow: hidden;
+   oveflow: hidden;      
 }
 
 
 #power .bottom {
-   border-bottom:solid 2px;
+   
    text-align:center;
 }
 
-#power div {
-   border: solid 1px;
-   border:5px;
-   vertical-align: middle;   
+#power > div {
+   border: solid 1px black;   
+   vertical-align: middle;
+   overflow: hidden;   
 }
 
-#power .six {
+#power .six {	
    border-right: solid 2px;
    float:left;
    width: 100px; height:30px;
@@ -35,3 +34,9 @@
    border: 0px;
 }
 a { text-decoration:none }
+
+#power > form > div {
+   border: solid 1px black;   
+   vertical-align: middle;
+   overflow: hidden;   
+}

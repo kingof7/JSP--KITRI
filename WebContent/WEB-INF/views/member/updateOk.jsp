@@ -12,15 +12,15 @@
 	
 	<c:if test="${check != 0 }">
 		<script type="text/javascript">
-			alert("회원 수정 되었습니다.");
-			location.href = "${root}/member/main.do";
+			alert("수정 되었습니다.");
+			location.href = "${root}/board/list.do";
 		</script>
 	</c:if>
 
 	<c:if test="${check == 0 }">
 		<script type="text/javascript">
-			alert("회원 수정되지 않았습니다.");
-			location.href = "${root}/member/update.do";
+			alert("수정되지 않았습니다.");
+			location.href = "${root}/board/update.do";
 		</script>
 	</c:if>
 </body>
