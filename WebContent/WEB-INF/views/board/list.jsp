@@ -41,6 +41,12 @@
 					<tr>
 						<td align="center" width="50">${boardDto.boardNumber}</td>
 						<td align="center" width="250">
+							<c:if test="${boardDto.sequenceLevel > 0}">
+								<c:forEach begin="0" end="${boardDto.sequenceLevel}">
+									&nbsp;&nbsp;
+								</c:forEach>
+								[답글]
+							</c:if>
 							<a href="${root}/board/read.do?boardNumber=${boardDto.boardNumber}&pageNumber=${currentPage}" style="text-decoration: none;">${boardDto.subject}</a>
 						</td>
 						<td align="center" width="70">${boardDto.writer}</td>
@@ -79,7 +85,7 @@
 		 --%>
 		 
 		 <fmt:parseNumber var="pageCount" value="${count/boardSize + (count % boardSize == 0 ? 0:1)}" integerOnly="true"/>
-		 <c:set var="pageBlock" value="${1}"/>
+		 <c:set var="pageBlock" value="${5}"/>
 		 <fmt:parseNumber var="result" value="${(currentPage-1)/pageBlock}" integerOnly="true"/>
 		 <c:set var="startPage" value="${result*pageBlock+1}"/>
 		 <c:set var="endPage" value="${startPage + pageBlock - 1 }"/>

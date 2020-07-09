@@ -21,6 +21,20 @@
 		
 		location.href = url;
 	}
+	
+	function delFun(root, boardNumber, pageNumber){
+		var url = root + "/board/delete.do?boardNumber=" + boardNumber + "&pageNumber=" + pageNumber;
+		//alert(url);
+		location.href = url;
+		
+		/*
+		var value=confirm("정말 삭제하시겠습니까?");
+		if(value == true){
+			var url = root + "/board/deleteOk.do?boardNumber=" + boardNumber + "&pageNumber=" + pageNumber;
+			location.href = url;
+		}
+		*/
+	}
 </script>
 </head>
 <body>
@@ -62,9 +76,9 @@
 	      </div>	    
 		<div class="bottom">
 			<input type="button" value="글수정" onclick=""/>
-			<input type="button" value="글삭제" onclick=""/>
+			<input type="button" value="글삭제" onclick="delFun('${root}','${boardDto.boardNumber}','${pageNumber}')"/>
 			<input type="button" value="답글" onclick="replyFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}')"/>
-			<input type="button" value="글목록" onclick=""/>
+			<input type="button" value="글목록" onclick="location.href='${root}/board/list.do?pageNumber=${pageNumber}'"/>
 		</div>
 
 	</div>

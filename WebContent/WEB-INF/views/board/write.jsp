@@ -46,7 +46,7 @@
 	      <div class="bottom">
 	         <input type="submit" name="write" value="글쓰기">
 	         <input type="reset" value="다시작성">
-	         <input type="button" name="list" value="목록보기">
+	         <input type="button" name="list" value="목록보기" onclick="location.href='${root}/board/list.do'"/>
 	      </div>
       </form>
    </div>

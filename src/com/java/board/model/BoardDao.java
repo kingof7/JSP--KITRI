@@ -33,7 +33,7 @@ public class BoardDao {
 			pstmt.setString(1, boardDto.getWriter());
 			pstmt.setString(2, boardDto.getSubject());
 			pstmt.setString(3, boardDto.getEmail());
-			pstmt.setString(4, boardDto.getContent());
+			pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
 			pstmt.setString(5, boardDto.getPassword());
 			
 			//Date -> time -> Timestamp 변환
@@ -249,5 +249,31 @@ public class BoardDao {
 		
 		
 		return boardDto;		
+	}
+	
+	public int delete(int boardNumber, String password) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;				
+		int value = 0;
+		
+		
+		try {
+			String sql = "delete from board where board_number=? and password=?";
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNumber);
+			pstmt.setString(2, password);
+			
+			value=pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);			
+		}
+		
+		return value;
 	}
 }
