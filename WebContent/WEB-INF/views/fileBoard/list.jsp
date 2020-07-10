@@ -95,16 +95,16 @@
 		 </c:if> 		
 		 	<%--${startPage}, ${endPage} --%>
 		 <c:if test="${startPage > pageBlock}">
-		 	<a href="${root}/board/list.do?pageNumber=${startPage - pageBlock}">[이전]</a>
+		 	<a href="${root}/fileBoard/list.do?pageNumber=${startPage - pageBlock}">[이전]</a>
 		 </c:if>
 		 	
 		 <c:forEach var="i" begin="${startPage}" end="${endPage}">
-		 	<a href="${root}/board/list.do?pageNumber=${i}">[${i}]</a>
+		 	<a href="${root}/fileBoard/list.do?pageNumber=${i}">[${i}]</a>
 		 </c:forEach>
 
 		 
 		 <c:if test="${endPage < pageCount}">
-		 	<a href="${root}/board/list.do?pageNumber=${startPage + pageBlock}">[다음]</a>
+		 	<a href="${root}/fileBoard/list.do?pageNumber=${startPage + pageBlock}">[다음]</a>
 		 </c:if>
 	</div>
 </body>

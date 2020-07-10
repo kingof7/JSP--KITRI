@@ -93,8 +93,7 @@ public class WriteOkCommand implements Command {
 					String fileName = System.currentTimeMillis() + "_" + fileItem.getName();
 
 					// 내 서버 절대경로
-					// String dir =
-					// "C:\\Users\\김현수\\Desktop\\khsworkspace\\java_workspace\\MVCHomePage\\WebContent\\pds\\";
+					// String dir ="C:/LJH/mvc/workspace/MVCHomePage/WebContent/pds";
 
 					// 실제 톰캣 서버 경로
 //	               String dir = request.getServletContext().getRealPath("\\pds\\");
