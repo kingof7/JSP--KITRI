@@ -7,7 +7,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,6 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.java.command.Command;
+import com.java.fileBoard.model.BoardDao;
 import com.java.fileBoard.model.BoardDto;
 
 public class WriteOkCommand implements Command {
@@ -102,7 +102,7 @@ public class WriteOkCommand implements Command {
 					
 					File file = new File(dir, fileName);
 					
-					//dir, fileName 합쳐주는 거
+					//dir, fileName 합쳐주는 
 					String path = file.getAbsolutePath();
 					
 					logger.info(file.getAbsolutePath());
@@ -141,6 +141,9 @@ public class WriteOkCommand implements Command {
 		boardDto.setDataMap(dataMap);
 		boardDto.setWriteDate(new Date());
 		logger.info(logMsg + boardDto.toString());
+		
+		int check = BoardDao.getInstance().insert(boardDto);
+		logger.info(logMsg + check);
 		
 		return "/WEB-INF/views/fileBoard/writeOk.jsp";
 	}

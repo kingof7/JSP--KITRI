@@ -25,33 +25,68 @@ public class BoardDao {
 		int value = 0;
 		
 		writeNumber(boardDto, conn);
-				
+		
+		String sql = null;
 		
 		try {
-			String sql = "insert into board(board_number, writer, subject, email, content, password, write_date, read_count,"
-					+ "group_number, sequence_number, sequence_level, file_name, path, file_size) " + "values(board_board_number_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			conn = ConnectionProvider.getConnection();
-			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, boardDto.getWriter());
-			pstmt.setString(2, boardDto.getSubject());
-			pstmt.setString(3, boardDto.getEmail());
-			pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
-			pstmt.setString(5, boardDto.getPassword());
-			
-			//Date -> time -> Timestamp 변환
-			/*
-			 * Date date = boardDto.getWriteDate(); long time = date.getTime(); Timestamp ts
-			 * = new Timestamp(time); pstmt.setTimestamp(5, ts);
-			 */
-			
-			pstmt.setTimestamp(6, new Timestamp(boardDto.getWriteDate().getTime()));
-			pstmt.setInt(7, boardDto.getReadCount());
-			pstmt.setInt(8,  boardDto.getGroupNumber());
-			pstmt.setInt(9,  boardDto.getSequenceNumber());
-			pstmt.setInt(10, boardDto.getSequenceLevel());
-			
-			value = pstmt.executeUpdate();
+			if(boardDto.getFileSize() == 0) {
+				sql = "insert into board(board_number, writer, subject, email, content, password, write_date, read_count,"
+						+ "group_number, sequence_number, sequence_level) " 
+						+ "values(board_board_number_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				conn = ConnectionProvider.getConnection();
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, boardDto.getWriter());
+				pstmt.setString(2, boardDto.getSubject());
+				pstmt.setString(3, boardDto.getEmail());
+				pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
+				pstmt.setString(5, boardDto.getPassword());
+				
+				//Date -> time -> Timestamp 변환
+				/*
+				 * Date date = boardDto.getWriteDate(); long time = date.getTime(); Timestamp ts
+				 * = new Timestamp(time); pstmt.setTimestamp(5, ts);
+				 */
+				
+				pstmt.setTimestamp(6, new Timestamp(boardDto.getWriteDate().getTime()));
+				pstmt.setInt(7, boardDto.getReadCount());
+				pstmt.setInt(8,  boardDto.getGroupNumber());
+				pstmt.setInt(9,  boardDto.getSequenceNumber());
+				pstmt.setInt(10, boardDto.getSequenceLevel());
+				
+				value = pstmt.executeUpdate();
+			}else {
+				sql = "insert into board(board_number, writer, subject, email, content, password, write_date, read_count,"
+						+ "group_number, sequence_number, sequence_level, file_name, path, file_size) " 
+						+ "values(board_board_number_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				
+				conn = ConnectionProvider.getConnection();
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, boardDto.getWriter());
+				pstmt.setString(2, boardDto.getSubject());
+				pstmt.setString(3, boardDto.getEmail());
+				pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
+				pstmt.setString(5, boardDto.getPassword());
+				
+				//Date -> time -> Timestamp 변환
+				/*
+				 * Date date = boardDto.getWriteDate(); long time = date.getTime(); Timestamp ts
+				 * = new Timestamp(time); pstmt.setTimestamp(5, ts);
+				 */
+				
+				pstmt.setTimestamp(6, new Timestamp(boardDto.getWriteDate().getTime()));
+				pstmt.setInt(7, boardDto.getReadCount());
+				pstmt.setInt(8,  boardDto.getGroupNumber());
+				pstmt.setInt(9,  boardDto.getSequenceNumber());
+				pstmt.setInt(10, boardDto.getSequenceLevel());
+				pstmt.setString(11, boardDto.getFileName());
+				pstmt.setString(12, boardDto.getPath());
+				pstmt.setLong(13, boardDto.getFileSize());
+				
+				value = pstmt.executeUpdate();
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
