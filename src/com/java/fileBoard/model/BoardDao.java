@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
@@ -24,6 +25,7 @@ public class BoardDao {
 		int value = 0;
 		
 		writeNumber(boardDto, conn);
+				
 		
 		try {
 			String sql = "insert into board(board_number, writer, subject, email, content, password, write_date, read_count,"

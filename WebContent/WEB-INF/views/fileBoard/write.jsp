@@ -16,7 +16,7 @@
       <div class="title">
          <span><a href="#">글목록</a></span>
       </div>
-      <form action="${root}/fileBoard/writeOk.do" method="get" onsubmit="return boardCheck(this)" enctype="multipart/form-data">
+      <form action="${root}/fileBoard/writeOk.do" method="post" onsubmit="return boardCheck(this)" enctype="multipart/form-data">
       
       	  <input type="hidden" name="boardNumber" value="${boardNumber }"/>
       	  <input type="hidden" name="groupNumber" value="${groupNumber }"/>

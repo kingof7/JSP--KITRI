@@ -1,6 +1,7 @@
 package com.java.fileBoard.model;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class BoardDto {
 	
@@ -21,7 +22,10 @@ public class BoardDto {
 	
 	private String fileName;
 	private String path;
-	private int fileSize;
+	private long fileSize;
+	
+	private HashMap<String, String> dataMap;
+	
 	
 	public BoardDto() {
 		// TODO Auto-generated constructor stub
@@ -151,12 +155,32 @@ public class BoardDto {
 		this.path = path;
 	}
 
-	public int getFileSize() {
+	public long getFileSize() {
 		return fileSize;
 	}
 
-	public void setFileSize(int fileSize) {
+	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
+	}
+
+	public HashMap<String, String> getDataMap() {
+		return dataMap;
+	}
+
+	public void setDataMap(HashMap<String, String> dataMap) {
+		this.dataMap = dataMap;
+		
+		setBoardNumber(Integer.parseInt(dataMap.get("boardNumber")));
+;		setGroupNumber(Integer.parseInt(dataMap.get("groupNumber")));
+		setSequenceNumber(Integer.parseInt(dataMap.get("sequenceNumber")));
+		setSequenceLevel(Integer.parseInt(dataMap.get("sequenceLevel")));	
+		
+		setWriter(dataMap.get("writer"));
+		setEmail(dataMap.get("email"));
+		setContent(dataMap.get("content"));
+		setPassword(dataMap.get("password"));
+		setSubject(dataMap.get("subject"));
+		
 	}
 
 	@Override
@@ -165,8 +189,10 @@ public class BoardDto {
 				+ email + ", content=" + content + ", password=" + password + ", writeDate=" + writeDate
 				+ ", readCount=" + readCount + ", groupNumber=" + groupNumber + ", sequenceNumber=" + sequenceNumber
 				+ ", sequenceLevel=" + sequenceLevel + ", fileName=" + fileName + ", path=" + path + ", fileSize="
-				+ fileSize + "]";
+				+ fileSize + ", dataMap=" + dataMap + "]";
 	}
+
+	
 
 	
 	
