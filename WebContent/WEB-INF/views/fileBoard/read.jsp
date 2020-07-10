@@ -82,7 +82,19 @@
 	         <label>	       		             
 	         	${boardDto.content}
          	 </label>
-	      </div>	    
+	      </div>
+	      
+	      <c:if test="${boardDto.fileSize != 0 }">
+	      <div>
+	      	<span class="six">	
+	      		<label>파일명</label>
+	      	</span>
+	      	
+	      	<span>
+	      		<a href="${root}/fileBoard/downLoad.do?boardNumber=${boardDto.boardNumber}">${boardDto.fileName}</a>
+	      	</span>
+	      </div>	
+	      </c:if>	    
 		<div class="bottom">
 			<input type="button" value="글수정" onclick="upFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}','${pageNumber}')"/>
 			<input type="button" value="글삭제" onclick="delFun('${root}','${boardDto.boardNumber}','${pageNumber}')"/>

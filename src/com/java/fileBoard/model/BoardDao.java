@@ -273,12 +273,17 @@ public class BoardDao {
 				boardDto.setGroupNumber(rs.getInt("group_number"));
 				boardDto.setSequenceNumber(rs.getInt("sequence_number"));
 				boardDto.setSequenceLevel(rs.getInt("sequence_level"));
+				
+				boardDto.setFileName(rs.getString("file_name"));
+				boardDto.setPath(rs.getString("path"));
+				boardDto.setFileSize(rs.getLong("file_size"));
 			}
 			
 			conn.commit();
 			
 		}catch(Exception e) {
-			
+			e.printStackTrace();
+			JdbcUtil.rollBack(conn);
 		}finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
@@ -288,6 +293,41 @@ public class BoardDao {
 		
 		return boardDto;		
 	}
+	
+	public BoardDto select(int boardNumber) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardDto boardDto = null;
+		
+		try {
+							
+			String sql = "select * from board where board_number = ?";
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNumber);			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {				
+				boardDto = new BoardDto();								
+				boardDto.setFileName(rs.getString("file_name"));
+				boardDto.setPath(rs.getString("path"));
+				boardDto.setFileSize(rs.getLong("file_size"));
+			}
+		
+			
+		}catch(Exception e) {
+			e.printStackTrace();			
+		}finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		
+		return boardDto;		
+	}
+	
 	
 	public int delete(int boardNumber, String password) {
 		Connection conn = null;

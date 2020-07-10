@@ -1,7 +1,5 @@
 package com.java.fileBoard.command;
 
-
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -27,28 +26,30 @@ public class WriteOkCommand implements Command {
 
 	@Override
 	public String proRequest(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-		
-		//request만으로 못받으니까 아래 걸 써줌
-		DiskFileItemFactory factory = new DiskFileItemFactory(); //파일보관 객체
-		ServletFileUpload upload = new ServletFileUpload(factory);	//요청처리 객체
-		
+
+		request.setCharacterEncoding("utf-8");
+
+		// request만으로 못받으니까 아래 걸 써줌
+		// DiskFileItemFactory factory = new DiskFileItemFactory(); //파일보관 객체
+		FileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(factory); // 요청처리 객체
+
 		List<FileItem> list = upload.parseRequest(request);
 		Iterator<FileItem> iter = list.iterator();
-		
+
 		BoardDto boardDto = new BoardDto();
 		HashMap<String, String> dataMap = new HashMap<String, String>();
-		
-		while(iter.hasNext()) {	// 11개
+
+		while (iter.hasNext()) { // 11개
 			FileItem fileItem = iter.next();
-			
-			if(fileItem.isFormField()) {
+
+			if (fileItem.isFormField()) {
 				/*
 				 * String name = fileItem.getFieldName(); logger.info(logMsg + name);
 				 */
-				
-				
-				//WriteCommand.java->write.jsp에서 받는 name들
-				//Map으로 할 수도 있음
+
+				// WriteCommand.java->write.jsp에서 받는 name들
+				// Map으로 할 수도 있음
 				/*
 				 * if(fileItem.getFieldName().equals("boardNumber")) { String boardNumber =
 				 * fileItem.getString(); int num = Integer.parseInt(boardNumber);
@@ -73,79 +74,82 @@ public class WriteOkCommand implements Command {
 				 * if(fileItem.getFieldName().equals("subject")) {
 				 * boardDto.setSubject(fileItem.getString("utf-8")); }
 				 */
-				
-				//Map방식
-				String name = fileItem.getFieldName();
+
+				String name = fileItem.getFieldName(); // 위에 분기 방식을 Map방식으로 간편하게 처리한다.
 				String value = fileItem.getString("utf-8");
 				logger.info(logMsg + name + "," + value);
-				
+
 				dataMap.put(name, value);
-				
-			}else {
-				
-				if(fileItem.getFieldName().equals("file")) {
-					//파일명 fileItem.getName() / 파일사이즈 fileItem.getSize(), getInputStream()
-					
-					//파일(파일명)안올린 경우
-					if(fileItem.getName() == null || fileItem.getName().equals("")) {
-						continue; // 다시위로올라가서 제목,이메일등 불러오는 역할
-					}
-					
-					upload.setFileSizeMax(1024*1024*10); //바이트*키로바이트*메가바이트 ex:) 1024*1=1kb // 1024*1024*1=1mb // 1024*1024*1024*1 = 1gb
-					
-					
-					//경로명, File file <- dir, fileItem.getName() 추가 필요 (파일명이 계속 바뀌니까)
-					String dir = "C:/LJH/mvc/workspace/MVCHomePage/WebContent/pds";
-					
-					//파일이 겹치지 않게 (초당 시간을 추가)
+
+			} else {
+//	            String name = fileItem.getFieldName();
+//	            logger.info(logMsg + "binary " + name + "," + fileItem.getName() + "," + fileItem.getSize()); // 파일네임 체크
+				if (fileItem.getFieldName().equals("file")) {
+					// 파일명 getName() , 파일사이즈 getSize(), 파일정보 getInputStream()
+					if (fileItem.getName() == null || fileItem.getName().equals(""))
+						continue; // 파일 불러오기가 비워져 있으면? continue;
+
+					upload.setFileSizeMax(1024 * 1024 * 10); // 파일 최대 크기 byte * kb * mb * gb
 					String fileName = System.currentTimeMillis() + "_" + fileItem.getName();
-					
-					File file = new File(dir, fileName);
-					
-					//dir, fileName 합쳐주는 
-					String path = file.getAbsolutePath();
-					
-					logger.info(file.getAbsolutePath());
-					logger.info(file.getCanonicalPath());
-					
-					//InputStream is = null;
-					BufferedInputStream bis = null;					
+
+					// 내 서버 절대경로
+					// String dir =
+					// "C:\\Users\\김현수\\Desktop\\khsworkspace\\java_workspace\\MVCHomePage\\WebContent\\pds\\";
+
+					// 실제 톰캣 서버 경로
+//	               String dir = request.getServletContext().getRealPath("\\pds\\");
+//	               logger.info(logMsg + dir);
+
+					File dir = new File("C:\\pds\\");
+					dir.mkdir();
+					File file = null;
+					if (dir.exists() && dir.isDirectory()) {
+						file = new File(dir, fileName);
+					}
+
+					BufferedInputStream bis = null;
 					BufferedOutputStream bos = null;
-					
-					try {			
-						//is = fileItem.getInputStream();
+
+					try { // 파일을 서버에 저장 하는 부분
 						bis = new BufferedInputStream(fileItem.getInputStream(), 1024);
 						bos = new BufferedOutputStream(new FileOutputStream(file), 1024);
-						//넘어온게 있으면
-						while(true) {
+						while (true) {
 							int data = bis.read();
-							if(data == -1) break;
+							if (data == -1)
+								break;
+
+							bos.write(data);
 						}
-					}catch(IOException e) {
+						bos.flush();
+					} catch (IOException e) {
 						e.printStackTrace();
-					}finally {
-						if(bis != null) bis.close();
+					} finally {
+						if (bis != null)
+							bis.close();
 					}
-					
+
 					boardDto.setFileName(fileName);
 					boardDto.setFileSize(fileItem.getSize());
-					boardDto.setPath(path);
+					boardDto.setPath(file.getAbsolutePath());
+
 				}
-				
-				
+
 				String name = fileItem.getFieldName();
 				logger.info(logMsg + "binary: " + name + "," + fileItem.getName() + "," + fileItem.getSize());
 			}
 		}
-		
+
 		boardDto.setDataMap(dataMap);
 		boardDto.setWriteDate(new Date());
 		logger.info(logMsg + boardDto.toString());
-		
+
 		int check = BoardDao.getInstance().insert(boardDto);
 		logger.info(logMsg + check);
-		
+
+		request.setAttribute("check", check);
+
 		return "/WEB-INF/views/fileBoard/writeOk.jsp";
+
 	}
 
 }
