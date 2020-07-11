@@ -47,3 +47,7 @@ create table board(
 );
 
 create sequence board_board_number_seq;
+
+alter table board add file_name varchar2(200);
+alter table board add path varchar2(100);
+alter table board add file_size number(10);
