@@ -19,7 +19,7 @@ public class ReadCommand implements Command {
 		BoardDto boardDto = BoardDao.getInstance().read(boardNumber);
 		logger.info(logMsg + boardDto);
 		
-		if(boardDto.getFileSize() != 0) {
+		if(boardDto.getFileName() != null) {
 			// _의 인덱스 뽑아줌
 			int index = boardDto.getFileName().indexOf("_") + 1;
 			boardDto.setFileName(boardDto.getFileName().substring(index));

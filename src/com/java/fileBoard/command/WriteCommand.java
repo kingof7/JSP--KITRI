@@ -23,6 +23,7 @@ public class WriteCommand implements Command {
 			groupNumber = Integer.parseInt(request.getParameter("groupNumber"));
 			sequenceNumber = Integer.parseInt(request.getParameter("sequenceNumber"));
 			sequenceLevel = Integer.parseInt(request.getParameter("sequenceLevel"));
+					
 		}
 		
 		logger.info(logMsg + "boardNumber: " + boardNumber);

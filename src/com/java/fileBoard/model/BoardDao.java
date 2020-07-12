@@ -302,13 +302,22 @@ public class BoardDao {
 		int value = 0;
 		try {
 			conn = ConnectionProvider.getConnection();
+						
+		
+				String sqlUpdate = "update board set writer = ?, subject = ?, email = ?, content = ?, password = ?, file_name = ?, path = ?, file_size = ?  where board_number = ?";
+				pstmt = conn.prepareStatement(sqlUpdate);
+				pstmt.setString(1, boardDto.getWriter());
+				pstmt.setString(2, boardDto.getSubject());
+				pstmt.setString(3, boardDto.getEmail());
+				pstmt.setString(4, boardDto.getContent());
+				pstmt.setString(5, boardDto.getPassword());
+				pstmt.setString(6, boardDto.getFileName());
+				pstmt.setString(7, boardDto.getPath());
+				pstmt.setLong(8, boardDto.getFileSize());
+				pstmt.setInt(9, boardDto.getBoardNumber());
+				
+				value = pstmt.executeUpdate();	
 			
-			String sqlUpdate = "update board set subject = ?, content = ? where board_number = ?";
-			pstmt = conn.prepareStatement(sqlUpdate);
-			pstmt.setString(1, boardDto.getSubject());
-			pstmt.setString(2, boardDto.getContent());
-			pstmt.setInt(3, boardDto.getBoardNumber());
-			value = pstmt.executeUpdate();
 			
 		}catch(Exception e) {
 			e.printStackTrace();

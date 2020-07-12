@@ -21,17 +21,23 @@ public class UpdateOkCommand implements Command {
 		//제목, 내용, 글번호만 받아서 update()로 넘겨줌
 		boardDto.setSubject(request.getParameter("subject"));
 		boardDto.setContent(request.getParameter("content"));
+		boardDto.setWriter(request.getParameter("writer"));
+		boardDto.setEmail(request.getParameter("email"));
+		boardDto.setPassword(request.getParameter("password"));
+		boardDto.setFileName(request.getParameter("file"));
+		boardDto.setPath(request.getParameter("path"));
+		boardDto.setFileSize(Long.parseLong(request.getParameter("fileSize")));
 		//boardNumber는 boardDto의 필드이기에 이렇게 셋팅
 		boardDto.setBoardNumber(Integer.parseInt(request.getParameter("boardNumber")));
 		
-		logger.info(logMsg + boardDto + pageNumber);
+		logger.info(logMsg + boardDto.toString());
 		
 		//업데이트 완료 확인용 check
 		int check = BoardDao.getInstance().update(boardDto);
 		
 		request.setAttribute("pageNumber", pageNumber);
 		request.setAttribute("check", check);
-		request.setAttribute("boardDto", boardDto);
+		request.setAttribute("boardDto", boardDto);		
 		
 		logger.info("pageNumber: " + pageNumber + "check: " + check + "boardDto: " + boardDto.toString());
 		

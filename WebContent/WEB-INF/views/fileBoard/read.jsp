@@ -35,13 +35,14 @@
 		*/
 	}
 	
-	function upFun(root, boardNumber, groupNumber, sequenceNumber, sequenceLevel, pageNumber){
+	function upFun(root, boardNumber, groupNumber, sequenceNumber, sequenceLevel, pageNumber, fileName){
 		var url = root + "/fileBoard/update.do?boardNumber=" + boardNumber;
 		url += "&groupNumber=" + groupNumber;
 		url += "&sequenceNumber=" + sequenceNumber;
 		url += "&sequenceLevel=" + sequenceLevel;
 		url += "&pageNumber=" + pageNumber;
-		
+		url +- "&fileName=" + fileName;
+				
 		location.href = url;		
 	}
 </script>
@@ -84,7 +85,7 @@
          	 </label>
 	      </div>	    
 
-	      <c:if test="${boardDto.fileSize != 0 }">
+	      <c:if test="${boardDto.fileName != null }">
 		      <div>
 		      	<span class="six">	
 		      		<label>파일명</label>
@@ -97,7 +98,7 @@
 	      </c:if>  	    
 
 			<div class="bottom">
-				<input type="button" value="글수정" onclick="upFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}','${pageNumber}')"/>
+				<input type="button" value="글수정" onclick="upFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}','${pageNumber}','${boardDto.fileName }')"/>
 				<input type="button" value="글삭제" onclick="delFun('${root}','${boardDto.boardNumber}','${pageNumber}')"/>
 				<input type="button" value="답글" onclick="replyFun('${root}','${boardDto.boardNumber}','${boardDto.groupNumber}','${boardDto.sequenceNumber}','${boardDto.sequenceLevel}')"/>
 				<input type="button" value="글목록" onclick="location.href='${root}/fileBoard/list.do?pageNumber=${pageNumber}'"/>

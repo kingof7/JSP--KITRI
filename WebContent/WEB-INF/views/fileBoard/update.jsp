@@ -46,12 +46,16 @@
 	      <div>
 	      	<span class="six" style="border-bottom-width: 1px">
 	      		파일명
-	      	</span>	
-	      	<input type="file" size="40" name="file">	      	     	
+	      	</span>
+	      	<label>${boardDto.fileName}</label>	
+	      	<input style="float: right;" type="file" size="40" name="file">
+	      	<input type="hidden" name="path" value="${boardDto.path }">
+	      	<input type="hidden" name="fileSize" value="${boardDto.fileSize }">	      	     	
 	      </div>
 	      
 	      <div class="bottom">
-	         <input type="submit" name="update" value="수정하기">
+	        <input type="button" name="delFile" value="파일삭제">
+	         <input type="submit" value="수정하기">
 	         <input type="reset" value="다시작성">
 	         <input type="button" name="list" value="목록보기" onclick="location.href='${root}/fileBoard/list.do'"/>
 	      </div>
