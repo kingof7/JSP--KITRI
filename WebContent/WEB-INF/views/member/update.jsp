@@ -15,8 +15,7 @@
 	<div id=memberform>
 	<span style="display:block;text-align:center;">회원가입( * 필수입력사항입니다.)</span>
 	
-	<form action="${root}/member/updateOk.do" method="post" class="form"
-			onsubmit="return createChkForm(this)" name="createChkForm">
+	<form action="${root}/member/updateOk.do" method="post" class="form" onsubmit="return createChkForm(this)" name="createChkForm">
 			
 		<input type="hidden" name="num" value="${memberDto.num }">
 			

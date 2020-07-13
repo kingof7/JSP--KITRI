@@ -64,7 +64,7 @@ public class WriteOkCommand implements Command {
 				if (fileItem.getFieldName().equals("file")) {
 					// 파일명 getName() , 파일사이즈 getSize(), 파일정보 getInputStream()
 					if (fileItem.getName() == null || fileItem.getName().equals(""))
-						continue; // 파일 불러오기가 비워져 있으면? continue;
+						continue; 
 
 					upload.setFileSizeMax(1024 * 1024 * 10); // 파일 최대 크기 byte * kb * mb * gb
 					String fileName = System.currentTimeMillis() + "_" + fileItem.getName();
